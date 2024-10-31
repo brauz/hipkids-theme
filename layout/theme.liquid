@@ -1,0 +1,300 @@
+{%- include 'custom-metas-for-tag-pages' -%}
+
+<!DOCTYPE HTML>
+<!--[if IE 9]> <html cclass="is-ie9 js-unavailable supports-no-cookies" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html class="js-unavailable supports-no-cookies" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>
+{% if handle contains '?q=' %}
+  <meta name="robots" content="noindex">
+{% endif %}
+  <script src="https://www.googleoptimize.com/optimize.js?id=OPT-MGBFS2F"></script>
+  <script type="text/javascript" src="https://preeziecdn.azureedge.net/production/preguide.min.js" async></script>
+  {% if shop.url contains 'dev.' %}
+      <script data-shop="{{ shop.url }}" src="https://d3aq2u4yw77ivo.cloudfront.net/find-in-store/shopify/hipkids/find-in-store.shopify.hipkids.dev.js" async></script>
+  {% else %}
+      <script data-shop="{{ shop.url }}" src="https://d3aq2u4yw77ivo.cloudfront.net/find-in-store/shopify/hipkids/find-in-store.shopify.hipkids.prod.js" async></script>
+  {% endif %}
+
+
+  {%- comment -%} Head Tags Snippet (Site and Layout wide) {%- endcomment -%}
+  {%- render 'tool.head-tags', thispageTitle: thispageTitle, thispageDescription: thispageDescription, thispageCanonical: thispageCanonical -%}
+
+  <script src="{{ 'slick.min.js' | asset_url }}" defer></script>
+
+  {%- liquid
+    render 'tool.fonts'
+    render 'vite-client'
+    render 'vite-tag' with '@styles/layout/theme.scss'
+    render 'vite-tag' with '@scripts/layout/theme.js'
+  -%}
+
+  {% render 'structured-data' %}
+
+  {{ content_for_header }}
+
+  <!--openpaywidgetstart-->
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+  <!--openpaywidgetend-->
+  <script type="text/javascript">
+    Shopify = window.Shopify || {};
+    Shopify.i18n = {
+      'shopify': {
+        'checkout': {
+          'shipping': {
+            'no_rates_for_country_notice': '{{- 'shopify.checkout.shipping.no_rates_for_country_notice' | t -}}',
+            'quantity_not_available'     : '{{- 'shopify.checkout.shipping.quantity_not_available' | t -}}'
+          }
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript">
+  (function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/sJ5xwS44Eeb5USM6axfD2gry0MDMdS7d73gWveyS/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+  </script>
+
+  {%- comment -%} MS Clarity {%- endcomment -%}
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "5gtfjmrx82");
+  </script>
+
+  {%- comment -%}
+  {%- assign yotpo_offload_content = shop.metafields.yotpo.yotpo_offload_content %}
+  {%- assign time_now = 'now' | date: '%s' %}
+  {%- assign yotpo_live_time = shop.metafields.yotpo.yotpo_live | date: '%s' %}
+  {%- assign diffSeconds = time_now | minus: yotpo_live_time %}
+  {%- if yotpo_offload_content == 'yes' and diffSeconds < 86400 -%}
+  {{ 'yotpo-full-css.css' | asset_url | stylesheet_tag }}
+  {%- endif -%}
+  {%- endcomment -%}
+
+  {% render "loyaltylion" %}
+  {% include 'dexter' %}
+  {% include 'upsellio' %}
+<script id="docapp-cart">window.docappCart = {{ cart | json }}; window.docappCart.currency = "{{ 0 | money_with_currency | slice: -3, 3 }}"; window.docappCart.shop_currency = "{{ shop.currency }}";</script>
+<script id="docapp-free-item-speedup">
+(() => { if (!document.documentElement.innerHTML.includes('\\/shop' + '\\/js' + '\\/free-gift-cart-upsell-pro.min.js') || window.freeGiftCartUpsellProAppLoaded) return; let script = document.createElement('script'); script.src = "https://d2fk970j0emtue.cloudfront.net/shop/js/free-gift-cart-upsell-pro.min.js?shop=hipkids-com-au.myshopify.com"; document.getElementById('docapp-free-item-speedup').after(script); })();
+</script>
+
+<script>(() => {const installerKey = 'docapp-free-gift-auto-install'; const urlParams = new URLSearchParams(window.location.search); if (urlParams.get(installerKey)) {window.sessionStorage.setItem(installerKey, JSON.stringify({integrationId: urlParams.get('docapp-integration-id'), divClass: urlParams.get('docapp-install-class'), check: urlParams.get('docapp-check')}));}})();</script>
+
+<script>(() => {const previewKey = 'docapp-free-gift-test'; const urlParams = new URLSearchParams(window.location.search); if (urlParams.get(previewKey)) {window.sessionStorage.setItem(previewKey, JSON.stringify({active: true, integrationId: urlParams.get('docapp-free-gift-inst-test')}));}})();</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-1011997622"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-1011997622');
+</script>
+
+  <!-- Hotjar Tracking Code for Hipkids -->
+  {%
+    if template.name == 'index'
+    or template.name == 'collection'
+    or template.name == 'product'
+    or template.name == 'cart'
+    or template.name == 'account'
+    or page.handle == 'delivery'
+    or page.handle == 'returns-and-refunds'
+    or page.handle == 'contact-us'
+    or page.handle == 'our-story'
+    or page.handle == 'loyalty-program-2023'
+    or page.handle == 'search-results-page'
+    or page.handle == 'faq'
+    or page.handle == 'showroom-location'
+    or page.handle == 'click-collect-now-available'
+    or request.path == '/a/wishlist'
+  %}
+    <script> (function(h,o,t,j,a,r){ h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)}; h._hjSettings={hjid:4953255,hjsv:6}; a=o.getElementsByTagName('head')[0]; r=o.createElement('script');r.async=1; r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv; a.appendChild(r); })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv='); </script>
+  {% endif %}
+
+{% if settings.ss_enable %}
+	{% render 'ss-script' %}
+{% endif %}
+
+  <!-- Varify.io® code for Hip Kids-->
+  <script>
+    window.varify = window.varify || {};
+    window.varify.iid = 2395;
+  </script>
+  <script src="https://app.varify.io/varify.js"></script>
+  
+<!-- Start MyRegistry Javascript -->
+<!-- <script type='text/javascript' xml='space'> (function() { var as = document.createElement('script'); as.type = 'text/javascript'; as.async = true; as.src = 'https://www.myregistry.com/ScriptPlatform/Shopify/AddToMrButton.js?siteKey=BLJneFu9bTR8-ZDAO7PVSQ2&version=' + (new Date().getTime()); var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(as, s); })(); </script> -->
+<!-- End MyRegistry Javascript -->
+
+<!-- <script type="text/javascript" xml="space"> (function() { var as = document.createElement('script'); as.type = 'text/javascript'; as.async = true; as.src = 'https://www.myregistry.com/ScriptPlatform/Shopify/ShippingAutopopulate.js?siteKey=BLJneFu9bTR8-ZDAO7PVSQ2&version=' + (new Date().getTime()); var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(as, s); })(); </script>  -->
+
+
+  
+</head>
+<body id="{{ page_title | handle }}" class="c-page c-page--{{ template.name | handle }}{% if settings.ss_enable and collection.handle and collection.handle == settings.ss_collection_handle %} ss-shop{% endif %}">
+  {% comment %} theme-check-disable RemoteAsset {% endcomment %}
+  <script async type="text/javascript" src="https://data.stats.tools/js/data.js"></script>
+  {% comment %} theme-check-enable RemoteAsset {% endcomment %}
+
+  {%- comment -%} Google Tag Manager {%- endcomment -%}
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54JQTG"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+
+  {%- comment -%} rneder prodcut badge style {%- endcomment -%}
+  {% render 'product-badge' %}
+
+  {%- comment -%} Accessibility skip link {%- endcomment -%}
+  <a class="u-visually-hidden" href="#MainContent">
+    {{- 'general.accessibility.skip_to_content' | t -}}
+  </a>
+
+  {%- section 'promobar' -%}
+  {%- section 'header' -%}
+
+  {%- comment -%} Entire Page Wrapper {%- endcomment -%}
+  <div class="c-page__wrapper">
+
+    {%- comment -%} Main (Template) Content {%- endcomment -%}
+    <main role="main" class="o-main">
+      <div class="o-main__wrapper" id="MainContent">
+
+        {%- comment -%} Static (Site Wide) Sections {%- endcomment -%}
+        {{ content_for_layout }}
+        {%- section 'footer' -%}
+        {%- section 'mobile-menu' -%}
+        {%- section 'swatch-theme-editor' -%}
+        {%- section 'swatch-theme-editor-2' -%}
+        {%- section 'swatch-theme-editor-3' -%}
+        {%- section 'cart-drawer' -%}
+        {%- section 'free-gift' -%}
+
+        {% comment %} Free Gift Modal {% endcomment %}
+        {% render 'free-gift-modal' %}
+
+        {% comment %} Localization Modal {% endcomment %}
+        {% if localization.available_countries.size > 1 %}
+          {% render 'localization-modal' %}
+        {% endif %}
+      </div>
+
+      {% comment %}Background Overlay{% endcomment %}
+      <div class="background-overlay" data-background-overlay></div>
+      <div class="background-overlay-mobile" data-background-overlay-mobile></div>
+    </main>
+  </div>
+
+  {%- comment -%} Popups {%- endcomment -%}
+  {%- section 'newsletter-popup' -%}
+
+  {% comment %} <!-- Power Tools view count code --> {% endcomment %}
+  {% if template contains 'product' %}
+    <script type="text/javascript">
+      (function () {
+        var oldonload = window.onload;
+        window.onload = function(){
+        var scr = document.createElement("script");
+        scr.setAttribute('defer', 'true');
+        scr.type = "text/javascript";
+        scr.src = "//ping.powertoolsapp.com/ping/{{ shop.permanent_domain }}/{{ product.id }}?weight={% if product.tags contains 'Featured' or product.tags contains 'featured' %}100{% else %}1{% endif %}{% if collection %}&collection_id={{ collection.handle }}{% endif %}";
+        ((document.getElementsByTagName('head') || [null])[0] || document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+        if(oldonload){oldonload()}};
+      }());
+    </script>
+  {% endif %}
+
+  {%- comment -%} Put all of your non essential scripts here {%- endcomment -%}
+  {%- include 'tool.body-end-tags' -%}
+
+  <script>
+    jQuery(document).ready(function($) {
+      $('.readmore-text').hide();
+      $('.readmore-text').after('<a class="readMore" style="cursor:pointer;margin-bottom:12px;display:inline-block;">Read More</a>');
+
+      $('.readMore').click(function(){
+        $(this).prev().slideToggle(200,function() {
+          $(this).next('.readMore').text(function (index, text) {
+            return (text == 'Read More' ? 'Close' : 'Read More');
+          });
+        });
+
+        return false;
+      });
+    });
+  </script>
+
+  <!-- PickyStory code, do not modify. Safe to remove after the app is uninstalled -->
+  {% if content_for_header contains 'pickystory' %}
+    {% render 'pickystory-combos-prerender' %}
+  {% endif %}
+  <!-- PickyStory code end -->
+
+
+
+  <!-- Klaviyo Added to Cart Event -->
+  <script type="text/javascript">
+    function addedToCart() {
+      var _learnq = _learnq || [];
+      fetch(`${window.location.origin}/cart.js`)
+      .then(res => res.clone().json().then(data => {
+        var cart = {
+          total_price: data.total_price/100,
+          $value: data.total_price/100,
+          total_discount: data.total_discount,
+          original_total_price: data.original_total_price/100,
+          items: data.items
+        }
+        if (item !== 'undefined') {
+          cart = Object.assign(cart, item)
+        }
+        _learnq.push(['track', 'Added to Cart', cart])
+      }))
+    }
+
+    $(document).on('Klaviyo_Cart_Event', () =>  addedToCart());
+    {% comment %} (function (ns, fetch) {
+      ns.fetch = function() {
+        const response = fetch.apply(this, arguments);
+        response.then(res => {
+          if (`${window.location.origin}/cart/add.js`
+            .includes(res.url)) {
+              addedToCart()
+          }
+        });
+        return response
+      }
+    }(window, window.fetch))
+    $(document).ajaxComplete(function(event, request, settings){
+      if(settings.url == "/cart/add.js"){
+          addedToCart()
+      }
+    }) {% endcomment %}
+  </script>
+
+  {% render 'dexter-swatch-fix' %}
+
+  <!-- **BEGIN** Hextom USB Integration // Main Include - DO NOT MODIFY -->
+  {% render 'hextom_usb_main', product: product, customer: customer %}
+  <!-- **END** Hextom USB Integration // Main Include - DO NOT MODIFY -->
+  {% render 'bis-klaviyo' %}
+  <div data-rebuy-id="51971"></div>
+  <!--Gorgias Chat Widget Start-->
+<script id="gorgias-chat-widget-install-v3"
+    src="https://config.gorgias.chat/bundle-loader/01GYCCK40TFXF3FAEWJ8E7DCW1?source=shopify1click">
+</script>
+<script id="gorgias-chat-shopify-install">!function(_){_.SHOPIFY_PERMANENT_DOMAIN="{{shop.permanent_domain}}",_.SHOPIFY_CUSTOMER_ID="{{customer.id}}",_.SHOPIFY_CUSTOMER_EMAIL="{{customer.email}}"}(window||{});
+</script>
+  <!--Gorgias Chat Widget End-->
+{% render 'spurit_ufp2_theme_snippet' %}
+{% render 'oneclickupsellapp-theme', oneclickupsellapp: oneclickupsellapp %}
+{% assign oneclickupsellapp = true %}
+  {%- render 'product-rewards-earn-popup' -%}
+
+{% if settings.ss_enable %}
+	{% render 'ss-intellisuggest' %}
+{% endif %}
+</body>
+</html>
